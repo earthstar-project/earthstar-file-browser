@@ -1,4 +1,5 @@
 import React from 'react';
+import { DocTreeView } from './doc-tree';
 
 let makeTempBorder = (enabled: boolean | undefined): string => {
     return enabled
@@ -11,6 +12,37 @@ let makeTempBorder = (enabled: boolean | undefined): string => {
 //let triangleDownSm = '▾';
 //let triangleRightLg = '▶';
 let triangleDownLg = '▼';
+
+//================================================================================
+// FAKE DATA
+
+let paths = [
+    '/about/~@cinn.xxx/displayName.txt',
+    '/foo/bar/baz/111.txt',  // change many things at once
+    '/foo/bar/baz/222.txt',  // only change last seg
+    '/foo/bar/baz/333.txt',
+    '/foo/quux/baz/444.txt',  // change middle seg, same overall length
+    '/foo/quux/555.txt',  // shorten
+    '/foo/quux/zip/666.txt', // lengthen
+];
+
+let content = `
+I have eaten
+the plums
+that were in
+the icebox
+
+and which
+you were probably
+saving
+for breakfast
+
+Forgive me
+they were delicious
+so sweet
+and so cold
+
+  - William Carlos Williams`.trim();
 
 //================================================================================
 
@@ -43,50 +75,9 @@ export let Earthbar = (props: BasicProps) => {
 
 export let TreeAndDetail = (props: BasicProps) => {
     let { className, tempBorder } = props;
-    let content = `
-I have eaten
-the plums
-that were in
-the icebox
-
-and which
-you were probably
-saving
-for breakfast
-
-Forgive me
-they were delicious
-so sweet
-and so cold
-
-  - William Carlos Williams`.trim();
     return (
         <div className={`${className ?? ''} ${makeTempBorder(tempBorder)} flex items-start gap-2`}>
-            <div className='flex-none w-40 bg-white max-h-screen p-2 rounded-xl overflow-y-auto'>
-                <div>/poems</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;160384.txt</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;160395.txt</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;160396.txt</div>
-                <div className='bg-green-200 -mx-2 px-2'>&nbsp;&nbsp;&nbsp;&nbsp;160398.txt</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;160399.txt</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;160403.txt</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;160409.txt</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;160412.txt</div>
-                <details className='px-3' open>
-                    <summary className='-mx-3'>/foo/</summary>
-                    <details className='px-3' open>
-                        <summary className='-mx-3'>bar/</summary>
-                        <details className='px-3' open>
-                            <summary className='-mx-3'>baz/</summary>
-                            <div>a.txt</div>
-                            <div>b.txt</div>
-                            <div>c.txt</div>
-                        </details>
-                        <div>x.jpg</div>
-                        <div>y.jpg</div>
-                    </details>
-                </details>
-            </div>
+            <DocTreeView paths={paths} className='flex-none w-40 max-h-screen'/>
             <div className='flex-auto bg-white max-h-screen rounded-xl overflow-y-auto'>
                 <div className='p-2 bg-green-200'>
                     <h3>/poems/160398.txt</h3>
